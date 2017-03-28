@@ -1,0 +1,25 @@
+language: php
+
+sudo: false
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+
+install:
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+
+before_script:
+  - mkdir -p ./build/logs
+  - phpenv config-rm xdebug.ini
+  - composer install
+  - composer dump-autoload -o
+
+script:
+  - php -dzend_extension=$(php-config --extension-dir)/xdebug.so ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpcs --standard=PSR2 src/ tests/KollusClient/
+
+after_success:
+  - travis_retry php vendor/bin/coveralls -v
