@@ -28,6 +28,11 @@ class Channel extends AbstractContainer
     private $count_of_media_contents;
 
     /**
+     * @var string
+     */
+    private $media_content_key;
+
+    /**
      * @var integer
      */
     private $use_pingback;
@@ -150,6 +155,22 @@ class Channel extends AbstractContainer
     public function setUsePingback($use_pingback)
     {
         $this->use_pingback = $use_pingback;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMediaContentKey(): string
+    {
+        return $this->media_content_key;
+    }
+
+    /**
+     * @param string $media_content_key
+     */
+    public function setMediaContentKey(string $media_content_key)
+    {
+        $this->media_content_key = $media_content_key;
     }
 
     /**

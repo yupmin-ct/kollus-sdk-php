@@ -11,8 +11,14 @@ use Guzzlehttp\Client as HttpClient;
  */
 abstract class AbstractClient
 {
-    protected function __construct()
+    public function __construct(
+        $domain = null,
+        $version = 0,
+        $languageKey = 'korean',
+        array $optParams = []
+    )
     {
+        $this->initialize($domain, $version, $languageKey, $optParams);
     }
 
     /**
@@ -230,6 +236,14 @@ abstract class AbstractClient
     public function getSchema()
     {
         return $this->schema;
+    }
+
+    /**
+     * @param string $schema
+     */
+    public function setSchema($schema)
+    {
+        $this->schema = $schema;
     }
 
     /**

@@ -33,6 +33,11 @@ class Category extends AbstractContainer
     private $count_of_media_contents;
 
     /**
+     * @var int
+     */
+    private $level;
+
+    /**
      * @return int
      */
     public function getId()
@@ -94,6 +99,22 @@ class Category extends AbstractContainer
     public function setParendId($parend_id)
     {
         $this->parend_id = $parend_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
+     * @param int $level
+     */
+    public function setLevel(int $level)
+    {
+        $this->level = $level;
     }
 
     /**

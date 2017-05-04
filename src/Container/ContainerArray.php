@@ -32,4 +32,22 @@ class ContainerArray extends \ArrayIterator
 
         return true;
     }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return iterator_to_array($this, true);
+    }
+
+    /**
+     * @param int $offset
+     * @param int|null $length
+     * @return ContainerArray
+     */
+    public function slice($offset, $length = null)
+    {
+        return new static(array_slice($this->toArray(), $offset, $length, true));
+    }
 }

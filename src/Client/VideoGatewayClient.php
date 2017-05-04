@@ -169,6 +169,31 @@ class VideoGatewayClient extends AbstractClient
 
     /**
      * @param string $mediaContentKey
+     * @return string
+     */
+    public function getPosterURL($mediaContentKey)
+    {
+        $posterURL = $this->getSchema() . '://' . $this->getVideoGateWayDomain() . '/poster/' .
+            $mediaContentKey .'.jpg' ;
+
+        $response = $this->client->request('HEAD', $posterURL, ['allow_redirects' => false]);
+
+        if ($response->getStatusCode() == 302) {
+            $locations = $response->getHeader('location');
+
+            if (isset($locations[0])) {
+                $posterURL = $locations[0];
+            }
+        }
+
+        // will depricated : poster url must use https.
+        $posterURL = str_replace('http', 'https', $posterURL);
+
+        return $posterURL;
+    }
+
+    /**
+     * @param string $mediaContentKey
      * @param string|null $clientUserId
      * @param array $optParams
      * @throws ClientException

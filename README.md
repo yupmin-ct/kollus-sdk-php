@@ -12,8 +12,8 @@
 - [License](#license)
 
 ## Requirement
-- PHP 5.5, 5.6
-- PHP Module : mcrypt, curl, kollus-crypt(option)
+- PHP 5.5 above
+- PHP Module : curl
 - Composer
 
 ## Installation
@@ -29,8 +29,10 @@ php composer.phar require kollus/kollus-sdk
 require('./vendor/autoload.php');
 
 use Kollus\Component\KollusClient;
+
 // Init library
 $apiClient = KollusClient::getApiClientBy('kr.kollus.com', 0, 'korean', 'service_account_key', 'api_access_token');
+
 // Get library media content list
 $mediaContents = $apiClient->getLibraryMediaContents();
 foreach ($mediaContents as $mediaContent) {
