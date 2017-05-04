@@ -9,7 +9,8 @@ class Callback
     /**
      * @param \Closure $callable
      */
-    public function upload(\Closure $callable) {
+    public function upload(\Closure $callable)
+    {
         $uploadFileKey = isset($_POST['upload_file_key']) ? $_POST['upload_file_key'] : null;
         $filename = isset($_POST['filename']) ? $_POST['filename'] : null;
         $contentProviderKey = isset($_POST['content_provider_key']) ? $_POST['content_provider_key'] : null;
@@ -20,7 +21,8 @@ class Callback
     /**
      * @param \Closure $callable
      */
-    public function transcoding(\Closure $callable) {
+    public function transcoding(\Closure $callable)
+    {
         $uploadFileKey = isset($_POST['upload_file_key']) ? $_POST['upload_file_key'] : null;
         $filename = isset($_POST['filename']) ? $_POST['filename'] : null;
         $transcodingResult = isset($_POST['transcoding_result']) ? $_POST['transcoding_result'] : null;
@@ -32,7 +34,8 @@ class Callback
     /**
      * @param \Closure $callable
      */
-    public function channel(\Closure $callable) {
+    public function channel(\Closure $callable)
+    {
         $uploadFileKey = isset($_POST['upload_file_key']) ? $_POST['upload_file_key'] : null;
         $filename = isset($_POST['filename']) ? $_POST['filename'] : null;
         $mediaContentKey = isset($_POST['media_content_key']) ? $_POST['media_content_key'] : null;
@@ -52,21 +55,24 @@ class Callback
     /**
      * @param \Closure $callable
      */
-    public function progress(\Closure $callable) {
+    public function progress(\Closure $callable)
+    {
         // TODO
     }
 
     /**
      * @param \Closure $callable
      */
-    public function play(\Closure $callable) {
+    public function play(\Closure $callable)
+    {
         // TODO
     }
 
     /**
      * @param \Closure $callable
      */
-    public function drm(\Closure $callable) {
+    public function drm(\Closure $callable)
+    {
         // TODO
     }
 }

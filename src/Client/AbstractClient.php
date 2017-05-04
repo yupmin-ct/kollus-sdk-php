@@ -16,8 +16,7 @@ abstract class AbstractClient
         $version = 0,
         $languageKey = 'korean',
         array $optParams = []
-    )
-    {
+    ) {
         $this->initialize($domain, $version, $languageKey, $optParams);
     }
 

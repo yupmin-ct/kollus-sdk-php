@@ -160,7 +160,7 @@ class Channel extends AbstractContainer
     /**
      * @return string
      */
-    public function getMediaContentKey(): string
+    public function getMediaContentKey()
     {
         return $this->media_content_key;
     }
@@ -168,7 +168,7 @@ class Channel extends AbstractContainer
     /**
      * @param string $media_content_key
      */
-    public function setMediaContentKey(string $media_content_key)
+    public function setMediaContentKey($media_content_key)
     {
         $this->media_content_key = $media_content_key;
     }

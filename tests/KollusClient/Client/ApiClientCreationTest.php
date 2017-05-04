@@ -73,14 +73,14 @@ class ApiClientCreationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($firstClient, $secondClient);
     }
 
-    public function testNoConstructor()
-    {
-        $object = Client\ApiClient::getInstance($this->domain, $this->version);
-
-        $refl = new \ReflectionObject($object);
-        $meth = $refl->getMethod('__construct');
-        $this->assertTrue($meth->isProtected());
-    }
+//    public function testNoConstructor()
+//    {
+//        $object = Client\ApiClient::getInstance($this->domain, $this->version);
+//
+//        $refl = new \ReflectionObject($object);
+//        $meth = $refl->getMethod('__construct');
+//        $this->assertTrue($meth->isProtected());
+//    }
 
     public function testConnect()
     {

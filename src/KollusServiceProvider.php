@@ -13,7 +13,7 @@ class KollusServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(\Kollus\Component\Client\ApiClient::class, function() {
+        $this->app->singleton(\Kollus\Component\Client\ApiClient::class, function () {
 
             $kollusApiClient = new \Kollus\Component\Client\ApiClient(
                 config('kollus.domain'),
@@ -35,7 +35,7 @@ class KollusServiceProvider extends ServiceProvider
             return $kollusApiClient;
         });
 
-        $this->app->singleton(\Kollus\Component\Client\VideoGatewayClient::class, function() {
+        $this->app->singleton(\Kollus\Component\Client\VideoGatewayClient::class, function () {
 
             $kollusVideoGatewayClient = new \Kollus\Component\Client\VideoGatewayClient(
                 config('kollus.domain'),
@@ -58,4 +58,3 @@ class KollusServiceProvider extends ServiceProvider
         });
     }
 }
-
