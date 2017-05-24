@@ -187,7 +187,7 @@ class VideoGatewayClient extends AbstractClient
         }
 
         // will depricated : poster url must use https.
-        $posterURL = str_replace('http', 'https', $posterURL);
+        $posterURL = str_replace('http://', 'https://', $posterURL);
 
         return $posterURL;
     }

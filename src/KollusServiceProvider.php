@@ -7,6 +7,18 @@ use Illuminate\Support\ServiceProvider;
 class KollusServiceProvider extends ServiceProvider
 {
     /**
+     * Perform post-registration booting of services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__ . '/config/kollus.php' => config_path('kollus.php'),
+        ]);
+    }
+
+    /**
      * Register the application services.
      *
      * @return void

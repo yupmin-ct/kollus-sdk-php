@@ -41,6 +41,44 @@ foreach ($mediaContents as $mediaContent) {
 ...
 ```
 
+## For laravel
+
+Add the service provider to config/app.php 
+
+```php
+    'providers' => [
+
+        /*
+         * Package Service Providers...
+         */
+        Kollus\Component\KollusServiceProvider::class,
+    ]
+
+```
+
+publish the config:
+
+```bash
+php artisan vendor:publish
+```
+
+fix config's values in the config `config/kollus.php`:
+
+```php
+return [
+    'service_account' => [
+        'key' => '[fill it]',
+        'id' =>'[fill it]',
+        'api_access_token' =>'[fill it]',
+        'custom_key' => '[fill it]',
+    ],
+    'domain' => 'kr.kollus.com',
+    'api_version' => '0',
+    'language' => 'korean',
+    'use_https' => 0,
+];
+```
+
 ## More information
 
 Please see [Wiki](https://github.com/yupmin-ct/kollus-sdk-php/wiki)

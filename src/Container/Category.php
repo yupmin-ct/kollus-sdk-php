@@ -112,7 +112,7 @@ class Category extends AbstractContainer
     /**
      * @param int $level
      */
-    public function setLevel(int $level)
+    public function setLevel($level)
     {
         $this->level = $level;
     }
