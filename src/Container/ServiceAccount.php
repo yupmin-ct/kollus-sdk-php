@@ -89,9 +89,9 @@ class ServiceAccount extends AbstractContainer
      */
     public function getSecurityKey()
     {
-        if (isset($this->security_key)) {
+        if (isset($this->security_key) && !empty($this->security_key)) {
             return (string)$this->security_key;
-        } elseif (isset($this->key)) {
+        } elseif (isset($this->key) && !empty($this->key)) {
             return (string)$this->key;
         }
 

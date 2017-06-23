@@ -57,7 +57,8 @@ class KollusServiceProvider extends ServiceProvider
 
             $serviceAccount = new \Kollus\Component\Container\ServiceAccount([
                 'key' => config('kollus.service_account.key'),
-                'custom_key' => config('kollus.service_account.custom_key')
+                'custom_key' => config('kollus.service_account.custom_key'),
+                'security_key' => config('kollus.service_account.security_key'),
             ]);
             if (config('kollus.use_https')) {
                 $kollusVideoGatewayClient->setSchema('https');
@@ -67,6 +68,19 @@ class KollusServiceProvider extends ServiceProvider
             $kollusVideoGatewayClient->connect();
 
             return $kollusVideoGatewayClient;
+        });
+
+        $this->app->singleton(\Kollus\Component\Callback::class, function () {
+
+            $serviceAccount = new \Kollus\Component\Container\ServiceAccount([
+                'key' => config('kollus.service_account.key'),
+                'custom_key' => config('kollus.service_account.custom_key'),
+                'security_key' => config('kollus.service_account.security_key'),
+            ]);
+
+            $kollusCallback = new \Kollus\Component\Callback($serviceAccount);
+
+            return $kollusCallback;
         });
     }
 }

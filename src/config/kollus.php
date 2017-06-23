@@ -6,6 +6,7 @@ return [
         'id' =>'',
         'api_access_token' =>'',
         'custom_key' => '',
+        'security_key' => '',
     ],
     'domain' => 'kr.kollus.com',
     'api_version' => '0',

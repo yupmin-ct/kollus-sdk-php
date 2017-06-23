@@ -1,13 +1,50 @@
 <?php
 
-namespace kollus\Component;
+namespace Kollus\Component;
 
+use Firebase\JWT\JWT;
 use Kollus\Component\Container\Channel;
 
 class Callback
 {
     /**
+     * @var array|object
+     */
+    private $data = [];
+
+    /**
+     * @var Container\ServiceAccount $serviceAccount
+     */
+    protected $serviceAccount;
+
+    /**
+     * Callback constructor.
+     * @param Container\ServiceAccount $serviceAccount
+     */
+    public function __construct(Container\ServiceAccount $serviceAccount)
+    {
+        $this->serviceAccount = $serviceAccount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJwtData()
+    {
+        return JWT::encode($this->data, $this->serviceAccount->getSecurityKey());
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomKey()
+    {
+        return $this->serviceAccount->getCustomKey();
+    }
+
+    /**
      * @param \Closure $callable
+     * @return self
      */
     public function upload(\Closure $callable)
     {
@@ -16,10 +53,13 @@ class Callback
         $contentProviderKey = isset($_POST['content_provider_key']) ? $_POST['content_provider_key'] : null;
 
         $callable($uploadFileKey, $filename, $contentProviderKey);
+
+        return $this;
     }
 
     /**
      * @param \Closure $callable
+     * @return self
      */
     public function transcoding(\Closure $callable)
     {
@@ -29,10 +69,13 @@ class Callback
         $contentProviderKey = isset($_POST['content_provider_key']) ? $_POST['content_provider_key'] : null;
 
         $callable($uploadFileKey, $filename, $transcodingResult, $contentProviderKey);
+
+        return $this;
     }
 
     /**
      * @param \Closure $callable
+     * @return self
      */
     public function channel(\Closure $callable)
     {
@@ -50,29 +93,87 @@ class Callback
         ]);
 
         $callable($uploadFileKey, $filename, $mediaContentKey, $updateType, $channel, $contentProviderKey);
+
+        return $this;
     }
 
     /**
      * @param \Closure $callable
+     * @return self
      */
-    public function progress(\Closure $callable)
+    public function progress(\Closure $callable, $key = 'json_data')
     {
-        // TODO
+        $data['userInfo'] = isset($_POST[$key]['user_info']) ? (int)$_POST[$key]['user_info'] : [];
+        $data['contentInfo'] = isset($_POST[$key]['content_info']) ? (int)$_POST[$key]['content_info'] : [];
+        $mediaContentKey = isset($data['contentInfo']['media_content_key']) ?
+            $data['contentInfo']['media_content_key'] : null;
+        $clientUserId = isset($data['userInfo']['client_user_id']) ? $data['userInfo']['client_user_id'] : null;
+        $playerId = isset($data['userInfo']['player_id']) ? $data['userInfo']['player_id'] : null;
+        $blockInfo = isset($_POST[$key]['block_info']) ? (int)$_POST[$key]['block_info'] : [];
+        $uservalues = isset($_POST[$key]['uservalues']) ? (int)$_POST[$key]['uservalues'] : [];
+
+        $callable($clientUserId, $playerId, $mediaContentKey, $blockInfo, $uservalues, $data);
+
+        return $this;
     }
 
     /**
      * @param \Closure $callable
+     * @return self
      */
     public function play(\Closure $callable)
     {
-        // TODO
+        $this->data = [];
+
+        $kind = isset($_POST['kind']) ? (int)$_POST['kind'] : null;
+        $clientUserId = isset($_POST['client_user_id']) ? $_POST['client_user_id'] : null;
+        $playerId = isset($_POST['player_id']) ? $_POST['player_id'] : null;
+        $mediaContentKey = isset($_POST['media_content_key']) ? $_POST['media_content_key'] : null;
+        $uservalues = isset($_POST['uservalues']) ? $_POST['uservalues'] : null;
+
+        $data['device_name'] = isset($_POST['deviceName']) ? $_POST['deviceName'] : null;
+        $data['hardware_id'] = isset($_POST['hardware_id']) ? $_POST['hardware_id'] : null;
+
+        $this->data = $callable($kind, $clientUserId, $playerId, $mediaContentKey, $uservalues, $data);
+
+        return $this;
     }
 
     /**
      * @param \Closure $callable
+     * @return self
      */
     public function drm(\Closure $callable)
     {
-        // TODO
+        $this->data = [];
+
+        $items = isset($_POST['items']) ? $_POST['items'] : '';
+        $items = empty($items) ? [] : json_decode($items, true);
+
+        $resultItems = [];
+        foreach ($items as $item) {
+            $kind = isset($item['kind']) ? (int)$item['kind'] : null;
+            $clientUserId = isset($item['client_user_id']) ? $item['client_user_id'] : null;
+            $playerId = isset($item['player_id']) ? $item['player_id'] : null;
+            $mediaContentKey = isset($item['media_content_key']) ? $item['media_content_key'] : null;
+            $uservalues = isset($item['uservalues']) ? $item['uservalues'] : null;
+
+            $data['device_name'] = isset($item['deviceName']) ? $item['deviceName'] : null;
+            $data['hardware_id'] = isset($item['hardware_id']) ? $item['hardware_id'] : null;
+            $data['session_key'] = isset($item['session_key']) ? $item['session_key'] : null;
+            $data['start_at'] = isset($item['start_at']) ? $item['start_at'] : null;
+            $data['content_expired'] = isset($item['content_expired']) ? $item['content_expired'] : null;
+            $data['reset_req'] = isset($item['reset_req']) ? $item['reset_req'] : null;
+
+            $resultItem = $callable($kind, $clientUserId, $playerId, $mediaContentKey, $uservalues, $data);
+
+            if (!empty($resultItem)) {
+                $resultItems['data'][] = $resultItem;
+            }
+        }
+
+        $this->data = $resultItems;
+
+        return $this;
     }
 }

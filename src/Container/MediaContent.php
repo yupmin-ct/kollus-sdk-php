@@ -22,6 +22,11 @@ class MediaContent extends AbstractContainer
     /**
      * @var string
      */
+    private $title;
+
+    /**
+     * @var string
+     */
     private $upload_file_key;
 
     /**
@@ -213,6 +218,22 @@ class MediaContent extends AbstractContainer
     public function setKindName($kind_name)
     {
         $this->kind_name = $kind_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
     }
 
     /**
