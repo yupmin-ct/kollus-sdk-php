@@ -1,5 +1,7 @@
 # Kollus SDK for PHP
 
+[![Build Status](https://travis-ci.org/yupmin-ct/kollus-sdk-php.svg?branch=master)](https://travis-ci.org/yupmin-ct/kollus-sdk-php) [![Coverage Status](https://coveralls.io/repos/github/yupmin-ct/kollus-sdk-php/badge.svg?branch=master)](https://coveralls.io/github/yupmin-ct/kollus-sdk-php?branch=master)
+
 ## Introduction
 
 **Unofficial** Kollus SDK Library for PHP
