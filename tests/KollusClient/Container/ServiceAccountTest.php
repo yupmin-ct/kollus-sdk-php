@@ -196,4 +196,37 @@ class ServiceAccountTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
     }
+
+    public function testGetSecurityKey()
+    {
+        $testKey = 'key';
+        $testName = 'name';
+        $testSecurityKey = '';
+        $serviceAccount = new Container\ServiceAccount([
+            'key' => $testKey,
+            'name' => $testName,
+        ]);
+
+        $this->assertEquals($testKey, $serviceAccount->getSecurityKey());
+
+        $serviceAccount = new Container\ServiceAccount([
+            'key' => $testKey,
+            'name' => $testName,
+            'security_key' => $testSecurityKey,
+        ]);
+
+        $this->assertEquals($testKey, $serviceAccount->getSecurityKey());
+
+        $testSecurityKey = 'security_key';
+        $serviceAccount->setSecurityKey($testSecurityKey);
+        $this->assertEquals($testSecurityKey, $serviceAccount->getSecurityKey());
+
+        $serviceAccount = new Container\ServiceAccount([
+            'key' => $testKey,
+            'name' => $testName,
+            'security_key' => $testSecurityKey,
+        ]);
+
+        $this->assertEquals($testSecurityKey, $serviceAccount->getSecurityKey());
+    }
 }

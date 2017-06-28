@@ -3,7 +3,7 @@
 namespace Kollus\Component;
 
 use Firebase\JWT\JWT;
-use Kollus\Component\Container\Channel;
+use Kollus\Component\Container;
 
 class Callback
 {
@@ -32,6 +32,14 @@ class Callback
     public function getJwtData()
     {
         return JWT::encode($this->data, $this->serviceAccount->getSecurityKey());
+    }
+
+    /**
+     * @return array|object
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 
     /**
@@ -87,7 +95,7 @@ class Callback
 
         $channelKey = isset($_POST['channel_key']) ? $_POST['channel_key'] : null;
         $channelName = isset($_POST['channel_name']) ? $_POST['channel_name'] : null;
-        $channel = new Channel([
+        $channel = new Container\Channel([
             'key' => $channelKey,
             'name' => $channelName,
         ]);
@@ -103,16 +111,24 @@ class Callback
      */
     public function progress(\Closure $callable, $key = 'json_data')
     {
-        $data['userInfo'] = isset($_POST[$key]['user_info']) ? (int)$_POST[$key]['user_info'] : [];
-        $data['contentInfo'] = isset($_POST[$key]['content_info']) ? (int)$_POST[$key]['content_info'] : [];
-        $mediaContentKey = isset($data['contentInfo']['media_content_key']) ?
-            $data['contentInfo']['media_content_key'] : null;
-        $clientUserId = isset($data['userInfo']['client_user_id']) ? $data['userInfo']['client_user_id'] : null;
-        $playerId = isset($data['userInfo']['player_id']) ? $data['userInfo']['player_id'] : null;
-        $blockInfo = isset($_POST[$key]['block_info']) ? (int)$_POST[$key]['block_info'] : [];
-        $uservalues = isset($_POST[$key]['uservalues']) ? (int)$_POST[$key]['uservalues'] : [];
+        if (isset($_POST[$key])) {
+            $data = json_decode($_POST[$key]);
 
-        $callable($clientUserId, $playerId, $mediaContentKey, $blockInfo, $uservalues, $data);
+            $userInfo = $data->user_info;
+            $contentInfo = $data->content_info;
+            $blockInfo = $data->block_info;
+
+            $progressBlocks = Container\ProgressBlock::importFromBlockInfo($blockInfo);
+
+            $uservalues = isset($data->uservalues) ? new Container\Uservalues($data->uservalues) : null;
+            $startAt = isset($contentInfo->start_at) ? $contentInfo->start_at : null;
+
+            $mediaContentKey = isset($contentInfo->media_content_key) ? $contentInfo->media_content_key : null;
+            $clientUserId = isset($userInfo->client_user_id) ? $userInfo->client_user_id : null;
+            $playerId = isset($userInfo->player_id) ? $userInfo->player_id : null;
+
+            $callable($clientUserId, $playerId, $mediaContentKey, $startAt, $progressBlocks, $uservalues, $data);
+        }
 
         return $this;
     }
@@ -129,7 +145,8 @@ class Callback
         $clientUserId = isset($_POST['client_user_id']) ? $_POST['client_user_id'] : null;
         $playerId = isset($_POST['player_id']) ? $_POST['player_id'] : null;
         $mediaContentKey = isset($_POST['media_content_key']) ? $_POST['media_content_key'] : null;
-        $uservalues = isset($_POST['uservalues']) ? $_POST['uservalues'] : null;
+        $uservalues = isset($_POST['uservalues']) ?
+            new Container\Uservalues(json_decode($_POST['uservalues'])) : null;
 
         $data['device_name'] = isset($_POST['deviceName']) ? $_POST['deviceName'] : null;
         $data['hardware_id'] = isset($_POST['hardware_id']) ? $_POST['hardware_id'] : null;
@@ -156,7 +173,8 @@ class Callback
             $clientUserId = isset($item['client_user_id']) ? $item['client_user_id'] : null;
             $playerId = isset($item['player_id']) ? $item['player_id'] : null;
             $mediaContentKey = isset($item['media_content_key']) ? $item['media_content_key'] : null;
-            $uservalues = isset($item['uservalues']) ? $item['uservalues'] : null;
+            $uservalues = isset($_POST['uservalues']) ?
+                new Container\Uservalues(json_decode($_POST['uservalues'])) : null;
 
             $data['device_name'] = isset($item['deviceName']) ? $item['deviceName'] : null;
             $data['hardware_id'] = isset($item['hardware_id']) ? $item['hardware_id'] : null;

@@ -58,7 +58,7 @@ class KollusServiceProvider extends ServiceProvider
             $serviceAccount = new \Kollus\Component\Container\ServiceAccount([
                 'key' => config('kollus.service_account.key'),
                 'custom_key' => config('kollus.service_account.custom_key'),
-                'security_key' => config('kollus.service_account.security_key'),
+                'security_key' => config('kollus.service_account.security_key', null),
             ]);
             if (config('kollus.use_https')) {
                 $kollusVideoGatewayClient->setSchema('https');
