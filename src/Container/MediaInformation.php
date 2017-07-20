@@ -2,10 +2,6 @@
 
 namespace Kollus\Component\Container;
 
-/**
- * Class MediaInformation
- * @package Kollus\Component\Container
- */
 class MediaInformation extends AbstractContainer
 {
     /**

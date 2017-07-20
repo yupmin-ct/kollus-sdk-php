@@ -2,10 +2,6 @@
 
 namespace Kollus\Component\Container;
 
-/**
- * Class LoginAccount
- * @package Kollus\Component\Container
- */
 class LoginAccount extends AbstractContainer
 {
     /**

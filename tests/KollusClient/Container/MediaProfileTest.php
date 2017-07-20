@@ -10,7 +10,7 @@ class MediaProfileTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $firstMediaProfile = new Container\MediaProfile();
-        $this->assertInstanceOf('Kollus\Component\Container\MediaProfile', $firstMediaProfile);
+        $this->assertInstanceOf(Container\MediaProfile::class, $firstMediaProfile);
 
         $testKey = 'key1';
         $testName = 'name1';
@@ -26,6 +26,6 @@ class MediaProfileTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($testName, $secondMediaProfile->getName());
 
         $mediaProfileGroup = $secondMediaProfile->getMediaProfileGroup();
-        $this->assertInstanceOf('Kollus\Component\Container\MediaProfileGroup', $mediaProfileGroup);
+        $this->assertInstanceOf(Container\MediaProfileGroup::class, $mediaProfileGroup);
     }
 }

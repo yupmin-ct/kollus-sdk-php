@@ -9,7 +9,7 @@ class ProgressBlockTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $firstProgressBlock = new Container\ProgressBlock();
-        $this->assertInstanceOf('Kollus\Component\Container\ProgressBlock', $firstProgressBlock);
+        $this->assertInstanceOf(Container\ProgressBlock::class, $firstProgressBlock);
 
         $testIsReadBlock = false;
         $testTime = 10;
@@ -22,6 +22,14 @@ class ProgressBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($testIsReadBlock, $secondProgressBlock->isReadBlock());
         $this->assertEquals($testTime, $secondProgressBlock->getTime());
         $this->assertEquals($testPercent, $secondProgressBlock->getPercent());
+
+        $secondProgressBlock->setIsReadBlock(true);
+        $secondProgressBlock->setTime(20);
+        $secondProgressBlock->setPercent(50);
+
+        $this->assertEquals(true, $secondProgressBlock->isReadBlock());
+        $this->assertEquals(20, $secondProgressBlock->getTime());
+        $this->assertEquals(50, $secondProgressBlock->getPercent());
     }
 
     public function testImportFromBlockInfo()
@@ -43,8 +51,8 @@ class ProgressBlockTest extends \PHPUnit_Framework_TestCase
         $firstProgressBlock = $progressBlocks[0];
         $secondProgressBlock = $progressBlocks[1];
 
-        $this->assertInstanceOf('Kollus\Component\Container\ProgressBlock', $firstProgressBlock);
-        $this->assertInstanceOf('Kollus\Component\Container\ProgressBlock', $secondProgressBlock);
+        $this->assertInstanceOf(Container\ProgressBlock::class, $firstProgressBlock);
+        $this->assertInstanceOf(Container\ProgressBlock::class, $secondProgressBlock);
         $this->assertEquals((bool)$testBlockInfo->blocks->b0, $firstProgressBlock->isReadBlock());
         $this->assertEquals($testBlockInfo->blocks->t0, $firstProgressBlock->getTime());
         $this->assertEquals($testBlockInfo->blocks->p0, $firstProgressBlock->getPercent());

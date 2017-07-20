@@ -3,11 +3,8 @@
 namespace Kollus\Component\Container;
 
 use Kollus\Component\KollusClient;
+use Kollus\Component\Client;
 
-/**
- * Class ServiceAccount
- * @package Kollus\Component\Container
- */
 class ServiceAccount extends AbstractContainer
 {
     /**
@@ -141,11 +138,11 @@ class ServiceAccount extends AbstractContainer
     /**
      * Add category
      *
-     * @param \Kollus\Component\Container\Category $category
+     * @param Category $category
      *
      * @return ServiceAccount
      */
-    public function addCategory(\Kollus\Component\Container\Category $category)
+    public function addCategory(Category $category)
     {
         $this->categories->appendElement($category);
 
@@ -155,11 +152,14 @@ class ServiceAccount extends AbstractContainer
     /**
      * Remove category
      *
-     * @param \Kollus\Component\Container\Category $category
+     * @param Category $category
+     * @return ServiceAccount
      */
-    public function removeCategory(\Kollus\Component\Container\Category $category)
+    public function removeCategory(Category $category)
     {
         $this->categories->removeElement($category);
+
+        return $this;
     }
 
     /**
@@ -172,7 +172,7 @@ class ServiceAccount extends AbstractContainer
         $client = KollusClient::getDefaultClient();
 
         $categories = new ContainerArray();
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $categories = $client->getCategories($getParams);
         }
 
@@ -189,7 +189,7 @@ class ServiceAccount extends AbstractContainer
         $client = KollusClient::getDefaultClient();
 
         $channels = new ContainerArray();
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $channels = $client->getChannels($getParams);
         }
 
@@ -206,7 +206,7 @@ class ServiceAccount extends AbstractContainer
         $client = KollusClient::getDefaultClient();
 
         $mediaContents = new ContainerArray();
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $mediaContents = $client->getLibraryMediaContents($getParams);
         }
 
@@ -216,7 +216,7 @@ class ServiceAccount extends AbstractContainer
     /**
      * @param array $getParams
      * @param string $channelKey
-     * @return MediaContent[]
+     * @return ContainerArray
      * @throws ContainerException
      */
     public function getChannelMediaContents($channelKey, array $getParams = [])
@@ -224,7 +224,7 @@ class ServiceAccount extends AbstractContainer
         $client = KollusClient::getDefaultClient();
 
         $mediaContents = new ContainerArray();
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $mediaContents = $client->getChannelMediaContents($channelKey, $getParams);
         }
 

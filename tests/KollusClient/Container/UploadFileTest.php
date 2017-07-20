@@ -42,15 +42,15 @@ class UploadFileTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -67,7 +67,7 @@ class UploadFileTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $firstUploadFile = new Container\UploadFile();
-        $this->assertInstanceOf('Kollus\Component\Container\UploadFile', $firstUploadFile);
+        $this->assertInstanceOf(Container\UploadFile::class, $firstUploadFile);
 
         $testUploadFileKey = 'key';
         $secondUploadFile = new Container\UploadFile(['upload_file_key' => $testUploadFileKey]);
@@ -91,7 +91,7 @@ class UploadFileTest extends \PHPUnit_Framework_TestCase
 
         $mediaContent = $uploadFile->getLibraryMediaContent();
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $mediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $mediaContent);
 
         $this->assertEquals('upload_file_key', $mediaContent->getUploadFileKey());
     }

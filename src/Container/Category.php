@@ -25,7 +25,7 @@ class Category extends AbstractContainer
     /**
      * @var int|bool
      */
-    private $parend_id;
+    private $parent_id;
 
     /**
      * @var int
@@ -88,17 +88,17 @@ class Category extends AbstractContainer
     /**
      * @return int
      */
-    public function getParendId()
+    public function getParentId()
     {
-        return (int)$this->parend_id;
+        return (int)$this->parent_id;
     }
 
     /**
-     * @param bool|int $parend_id
+     * @param bool|int $parent_id
      */
-    public function setParendId($parend_id)
+    public function setParentId($parent_id)
     {
-        $this->parend_id = $parend_id;
+        $this->parent_id = $parent_id;
     }
 
     /**
@@ -146,10 +146,10 @@ class Category extends AbstractContainer
         $client = KollusClient::getDefaultClient();
 
         $response = (object) [];
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $categoryKey = $this->getKey();
             if (empty($categoryKey)) {
-                throw new ContainerException('Channel key is empty.');
+                throw new ContainerException('Category key is empty.');
             }
             $getParams['category_key'] = $categoryKey;
             $response = $client->findLibraryMediaContentsByPage($page, $getParams, $force);
@@ -169,7 +169,7 @@ class Category extends AbstractContainer
         $client = KollusClient::getDefaultClient();
 
         $mediaContents = [];
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $categoryKey = $this->getKey();
             if (empty($categoryKey)) {
                 throw new ContainerException('Category key is empty.');
@@ -190,7 +190,7 @@ class Category extends AbstractContainer
     {
         $client = KollusClient::getDefaultClient();
 
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $categoryKey = $this->getKey();
             if (empty($categoryKey)) {
                 throw new ContainerException('Category key is empty.');
@@ -209,7 +209,7 @@ class Category extends AbstractContainer
     {
         $client = KollusClient::getDefaultClient();
 
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $categoryKey = $this->getKey();
             if (empty($categoryKey)) {
                 throw new ContainerException('Category key is empty.');

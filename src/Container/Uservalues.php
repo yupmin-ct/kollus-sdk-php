@@ -11,13 +11,16 @@ class Uservalues extends AbstractContainer
 
     /**
      * Uservalues constructor.
-     * @param array $items
+     * @param array|object $items
      */
     public function __construct($items = [])
     {
         foreach ($items as $key => $value) {
             $this->uservalues[$key] = (string)$value;
         }
+        $items = [];
+
+        parent::__construct($items);
     }
 
     /**

@@ -42,15 +42,15 @@ class ApiClientAccountTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -99,7 +99,7 @@ class ApiClientAccountTest extends \PHPUnit_Framework_TestCase
 
         $playerPcWindowsActivex = $mockClient->getVersionsForKollus('player_pc_windows_activex');
 
-        $this->assertInstanceOf('Kollus\Component\Container\KollusPlayer', $playerPcWindowsActivex);
+        $this->assertInstanceOf(Container\KollusPlayer::class, $playerPcWindowsActivex);
         $this->assertEquals('2,0,2,1', $playerPcWindowsActivex->getVersion());
         $this->assertEquals(
             'http://file.kollus.com/public/kollus2/KollusPlayer-2.0.2.1.cap',
@@ -108,7 +108,7 @@ class ApiClientAccountTest extends \PHPUnit_Framework_TestCase
 
         $playerPcWindowsNp = $mockClient->getVersionsForKollus('player_pc_windows_np');
 
-        $this->assertInstanceOf('Kollus\Component\Container\KollusPlayer', $playerPcWindowsNp);
+        $this->assertInstanceOf(Container\KollusPlayer::class, $playerPcWindowsNp);
         $this->assertEquals('2021', $playerPcWindowsNp->getVersion());
         $this->assertEquals(
             'http://file.kollus.com/public/kollus2/KollusPlayer-2.0.2.1.exe',
@@ -117,7 +117,7 @@ class ApiClientAccountTest extends \PHPUnit_Framework_TestCase
 
         $playerPcWindowsAgent = $mockClient->getVersionsForKollus('player_pc_windows_agent');
 
-        $this->assertInstanceOf('Kollus\Component\Container\KollusPlayer', $playerPcWindowsAgent);
+        $this->assertInstanceOf(Container\KollusPlayer::class, $playerPcWindowsAgent);
         $this->assertEquals('3.0.1.0', $playerPcWindowsAgent->getVersion());
         $this->assertEquals(
             'http://file.kollus.com/public/agent/KollusAgent-3.0.1.0.exe',
@@ -126,7 +126,7 @@ class ApiClientAccountTest extends \PHPUnit_Framework_TestCase
 
         $playerMobileIos = $mockClient->getVersionsForKollus('player_mobile_ios');
 
-        $this->assertInstanceOf('Kollus\Component\Container\KollusPlayer', $playerMobileIos);
+        $this->assertInstanceOf(Container\KollusPlayer::class, $playerMobileIos);
         $this->assertEquals('1.4.5', $playerMobileIos->getVersion());
         $this->assertEquals(
             'https://itunes.apple.com/app/id760006888',
@@ -135,7 +135,7 @@ class ApiClientAccountTest extends \PHPUnit_Framework_TestCase
 
         $playerMobileAndroid = $mockClient->getVersionsForKollus('player_mobile_android');
 
-        $this->assertInstanceOf('Kollus\Component\Container\KollusPlayer', $playerMobileAndroid);
+        $this->assertInstanceOf(Container\KollusPlayer::class, $playerMobileAndroid);
         $this->assertEquals('1.1.16', $playerMobileAndroid->getVersion());
         $this->assertEquals(
             'market://details?id=com.kollus.media',
@@ -144,7 +144,7 @@ class ApiClientAccountTest extends \PHPUnit_Framework_TestCase
 
         $playerUploader = $mockClient->getVersionsForKollus('uploader');
 
-        $this->assertInstanceOf('Kollus\Component\Container\KollusPlayer', $playerUploader);
+        $this->assertInstanceOf(Container\KollusPlayer::class, $playerUploader);
         $this->assertEquals('1.4.0', $playerUploader->getVersion());
         $this->assertEquals(
             'http://file.kollus.com/public/kollus_uploader/kollus-uploader-kr-1.4.0.air',

@@ -185,7 +185,7 @@ class Channel extends AbstractContainer
         $client = KollusClient::getDefaultClient();
 
         $response = (object) [];
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $channelKey = $this->getKey();
             if (empty($channelKey)) {
                 throw new ContainerException('Channel key is empty.');
@@ -207,7 +207,7 @@ class Channel extends AbstractContainer
         $client = KollusClient::getDefaultClient();
 
         $mediaContents = [];
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $channelKey = $this->getKey();
             if (empty($channelKey)) {
                 throw new ContainerException('Channel key is empty.');
@@ -226,7 +226,7 @@ class Channel extends AbstractContainer
     {
         $client = KollusClient::getDefaultClient();
 
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $channelKey = $this->getKey();
             if (empty($channelKey)) {
                 throw new ContainerException('Channel key is empty.');

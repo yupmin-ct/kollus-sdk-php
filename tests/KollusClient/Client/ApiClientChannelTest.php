@@ -42,15 +42,15 @@ class ApiClientChannelTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -82,12 +82,12 @@ class ApiClientChannelTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
 
         $channels = $mockClient->getChannels();
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $channels);
+        $this->assertInstanceOf(Container\ContainerArray::class, $channels);
         $this->assertNotEmpty($channels);
 
         $firstChannel = $channels[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\Channel', $firstChannel);
+        $this->assertInstanceOf(Container\Channel::class, $firstChannel);
 
         $this->assertEquals(2, $firstChannel->getId());
         $this->assertEquals('name2', $firstChannel->getName());
@@ -100,10 +100,7 @@ class ApiClientChannelTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
 
         $channelName = 'channel_name';
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->createChannel($channelName)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->createChannel($channelName));
     }
 
     public function testDeleteChannel()
@@ -112,10 +109,7 @@ class ApiClientChannelTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
 
         $channelKey = 'channel_key';
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->deleteChannel($channelKey)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->deleteChannel($channelKey));
     }
 
     public function testAttachChannel()
@@ -125,10 +119,7 @@ class ApiClientChannelTest extends \PHPUnit_Framework_TestCase
 
         $channelKey = 'channel_key';
         $uploadFileKey = 'upload_file_key';
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->attachChannel($channelKey, $uploadFileKey)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->attachChannel($channelKey, $uploadFileKey));
     }
 
     public function testDetachChannel()
@@ -138,9 +129,6 @@ class ApiClientChannelTest extends \PHPUnit_Framework_TestCase
 
         $channelKey = 'channel_key';
         $uploadFileKey = 'upload_file_key';
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->detachChannel($channelKey, $uploadFileKey)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->detachChannel($channelKey, $uploadFileKey));
     }
 }

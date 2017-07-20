@@ -42,15 +42,15 @@ class ApiClientCreationTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -67,7 +67,7 @@ class ApiClientCreationTest extends \PHPUnit_Framework_TestCase
     public function testUniqueness()
     {
         $firstClient = Client\ApiClient::getInstance($this->domain, $this->version);
-        $this->assertInstanceOf('Kollus\Component\Client\ApiClient', $firstClient);
+        $this->assertInstanceOf(Client\ApiClient::class, $firstClient);
 
         $secondClient = Client\ApiClient::getInstance($this->domain, $this->version);
         $this->assertSame($firstClient, $secondClient);
@@ -88,9 +88,9 @@ class ApiClientCreationTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
         $this->assertSame($client->getServiceAccount(), $this->serviceAccount);
 
-        $this->assertInstanceOf('Kollus\Component\Client\ApiClient', $client->connect());
+        $this->assertInstanceOf(Client\ApiClient::class, $client->connect());
 
-        $this->assertInstanceOf('GuzzleHttp\Client', $client->getClient());
+        $this->assertInstanceOf(\GuzzleHttp\Client::class, $client->getClient());
     }
 
     public function testGetResponseJSON()

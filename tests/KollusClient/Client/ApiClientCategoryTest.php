@@ -42,15 +42,15 @@ class ApiClientCategoryTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -82,12 +82,12 @@ class ApiClientCategoryTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
 
         $categories = $mockClient->getCategories();
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $categories);
+        $this->assertInstanceOf(Container\ContainerArray::class, $categories);
         $this->assertNotEmpty($categories);
 
         $firstCategory = $categories[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\Category', $firstCategory);
+        $this->assertInstanceOf(Container\Category::class, $firstCategory);
 
         $this->assertEquals(2, $firstCategory->getId());
         $this->assertEquals('name2', $firstCategory->getName());
@@ -107,7 +107,7 @@ class ApiClientCategoryTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
 
         $items = $mockClient->getCategories();
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $items);
+        $this->assertInstanceOf(Container\ContainerArray::class, $items);
         $this->assertEmpty($items);
     }
 
@@ -117,10 +117,7 @@ class ApiClientCategoryTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
 
         $categoryName = 'category_name';
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->createCategory($categoryName)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->createCategory($categoryName));
     }
 
     public function testEditCategory()
@@ -130,10 +127,9 @@ class ApiClientCategoryTest extends \PHPUnit_Framework_TestCase
 
         $categoryKey = 'category_key';
         $categoryName = 'changed_category_name';
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->editCategory($categoryKey, ['name' => $categoryName])
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->editCategory($categoryKey, [
+            'name' => $categoryName,
+        ]));
     }
 
     public function testDeleteCategory()
@@ -142,9 +138,6 @@ class ApiClientCategoryTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
 
         $categoryKey = 'category_key';
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->deleteCategory($categoryKey)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->deleteCategory($categoryKey));
     }
 }

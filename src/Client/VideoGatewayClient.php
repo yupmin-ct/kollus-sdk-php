@@ -7,10 +7,6 @@ use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Kollus\Component\Container;
 use Firebase\JWT\JWT;
 
-/**
- * Class VideoGatewayClient
- * @package Kollus\Component\Client
- */
 class VideoGatewayClient extends AbstractClient
 {
     /**
@@ -20,7 +16,7 @@ class VideoGatewayClient extends AbstractClient
      */
     public function connect($client = null)
     {
-        if (get_class($this->serviceAccount) != 'Kollus\\Component\\Container\\ServiceAccount') {
+        if (is_subclass_of($this->serviceAccount, Container\ServiceAccount::class)) {
             throw new ClientException('Service account is required.');
         }
 
@@ -75,7 +71,7 @@ class VideoGatewayClient extends AbstractClient
             $payload->mc = [];
 
             foreach ($mediaContentKey as $mediaItem) {
-                if (get_class($mediaItem) === 'Kollus\Component\Container\MediaItem') {
+                if ($mediaItem instanceof Container\MediaItem) {
                     $mcClaim = (object) [];
 
                     if (empty($mediaItem->getMediaContentKey())) {
@@ -135,7 +131,7 @@ class VideoGatewayClient extends AbstractClient
     }
 
     /**
-     * @param string $mediaContentKey
+     * @param string|array $mediaContentKey
      * @param string|null $clientUserId
      * @param array $optParams
      * @return string
@@ -169,12 +165,17 @@ class VideoGatewayClient extends AbstractClient
 
     /**
      * @param string $mediaContentKey
+     * @param bool $isEdgeUrl
      * @return string
      */
-    public function getPosterURL($mediaContentKey)
+    public function getPosterURL($mediaContentKey, $isEdgeUrl = false)
     {
         $posterURL = $this->getSchema() . '://' . $this->getVideoGateWayDomain() . '/poster/' .
             $mediaContentKey .'.jpg' ;
+
+        if (!$isEdgeUrl) {
+            return $posterURL;
+        }
 
         $response = $this->client->request('HEAD', $posterURL, ['allow_redirects' => false]);
 

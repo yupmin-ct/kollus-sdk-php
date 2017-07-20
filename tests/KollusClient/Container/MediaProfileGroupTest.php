@@ -10,7 +10,7 @@ class MediaProfileGroupTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $firstMediaProfileGroup = new Container\MediaProfileGroup();
-        $this->assertInstanceOf('Kollus\Component\Container\MediaProfileGroup', $firstMediaProfileGroup);
+        $this->assertInstanceOf(Container\MediaProfileGroup::class, $firstMediaProfileGroup);
 
         $testKey = 'key1';
         $testName = 'name1';

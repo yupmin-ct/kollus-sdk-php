@@ -4,7 +4,6 @@ namespace Kollus\Component\Container;
 
 class TranscodingFile extends AbstractContainer
 {
-
     /**
      * @var MediaProfileGroup
      */

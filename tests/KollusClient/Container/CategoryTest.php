@@ -42,15 +42,15 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -69,12 +69,27 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $testKey = 'key1';
         $testName = 'name1';
         $testCountOfMediaContents = 2;
+        $testLevel = 2;
+        $testParentId = 1;
         $category = new Container\Category(
-            ['key' => $testKey, 'name' => $testName, 'count_of_media_contents' => $testCountOfMediaContents]
+            [
+                'key' => $testKey,
+                'name' => $testName,
+                'count_of_media_contents' => $testCountOfMediaContents,
+                'level' => $testLevel,
+                'parent_id' => $testParentId,
+            ]
         );
         $this->assertEquals($testKey, $category->getKey());
         $this->assertEquals($testName, $category->getName());
         $this->assertEquals($testCountOfMediaContents, $category->getCountOfMediaContents());
+        $this->assertEquals($testLevel, $category->getLevel());
+        $this->assertEquals($testParentId, $category->getParentId());
+
+        $category->setLevel(1);
+        $this->assertEquals(1, $category->getLevel());
+        $category->setParentId(0);
+        $this->assertEquals(0, $category->getParentId());
     }
 
     public function testGetLibraryMediaContents()
@@ -100,12 +115,35 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
         $mediaContents = $category->getLibraryMediaContents();
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $mediaContents);
+        $this->assertInstanceOf(Container\ContainerArray::class, $mediaContents);
         $this->assertNotEmpty($mediaContents);
 
         $firstMediaContent = $mediaContents[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $firstMediaContent);
+    }
+
+    /**
+     * @expectedException \Kollus\Component\Container\ContainerException
+     * @throws Container\ContainerException
+     */
+    public function testInvalidGetLibraryMediaContents()
+    {
+        $mockResponseObject = (object)array(
+            'error' => 0,
+            'result' => (object)array(
+                'count' => 2,
+                'per_page' => 10,
+                'items' => (object)array(
+                    'item' => []
+                )
+            )
+        );
+        $this->getMockClient($mockResponseObject);
+
+        $category = new Container\Category(array('key' => '', 'name' => ''));
+
+        $category->GetLibraryMediaContents();
     }
 
     public function testFindLibraryMediaContentsByPage()
@@ -133,12 +171,35 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('stdClass', $response);
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $response->items);
+        $this->assertInstanceOf(Container\ContainerArray::class, $response->items);
         $this->assertNotEmpty($response->items);
 
         $firstMediaContent = $response->items[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $firstMediaContent);
+    }
+
+    /**
+     * @expectedException \Kollus\Component\Container\ContainerException
+     * @throws Container\ContainerException
+     */
+    public function testInvalidFindLibraryMediaContentsByPage()
+    {
+        $mockResponseObject = (object)array(
+            'error' => 0,
+            'result' => (object)array(
+                'count' => 2,
+                'per_page' => 10,
+                'items' => (object)array(
+                    'item' => []
+                )
+            )
+        );
+        $this->getMockClient($mockResponseObject);
+
+        $category = new Container\Category(array('key' => '', 'name' => ''));
+
+        $category->findLibraryMediaContentsByPage();
     }
 
     public function testEdit()
@@ -153,7 +214,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $testName = 'name';
         $category = new Container\Category(['key' => $testKey, 'name' => $testName]);
 
-        $this->assertInstanceOf('Kollus\Component\Container\Category', $category->edit(['name' => 'changed_name']));
+        $this->assertInstanceOf(Container\Category::class, $category->edit(['name' => 'changed_name']));
     }
 
     public function testDelete()
@@ -168,6 +229,6 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $testName = 'name';
         $category = new Container\Category(['key' => $testKey, 'name' => $testName]);
 
-        $this->assertInstanceOf('Kollus\Component\Container\Category', $category->delete());
+        $this->assertInstanceOf(Container\Category::class, $category->delete());
     }
 }

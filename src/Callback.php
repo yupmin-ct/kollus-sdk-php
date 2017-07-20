@@ -10,7 +10,7 @@ class Callback
     /**
      * @var array|object
      */
-    private $data = [];
+    protected $data = [];
 
     /**
      * @var Container\ServiceAccount $serviceAccount

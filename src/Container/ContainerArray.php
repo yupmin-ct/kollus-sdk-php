@@ -2,10 +2,6 @@
 
 namespace Kollus\Component\Container;
 
-/**
- * Class ContainerArray
- * @package Kollus\Component\Container
- */
 class ContainerArray extends \ArrayIterator
 {
     /**

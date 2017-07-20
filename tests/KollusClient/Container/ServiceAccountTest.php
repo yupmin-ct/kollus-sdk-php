@@ -42,15 +42,15 @@ class ServiceAccountTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -67,7 +67,7 @@ class ServiceAccountTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $firstServiceAccount = new Container\ServiceAccount();
-        $this->assertInstanceOf('Kollus\Component\Container\ServiceAccount', $firstServiceAccount);
+        $this->assertInstanceOf(Container\ServiceAccount::class, $firstServiceAccount);
 
         $testKey = 'test1';
         $testApiAccessToken = 'test2';
@@ -99,12 +99,12 @@ class ServiceAccountTest extends \PHPUnit_Framework_TestCase
         $serviceAccount = new Container\ServiceAccount(['key' => $testKey]);
 
         $categories = $serviceAccount->getCategories();
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $categories);
+        $this->assertInstanceOf(Container\ContainerArray::class, $categories);
         $this->assertNotEmpty($categories);
 
         $firstCategory = $categories[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\Category', $firstCategory);
+        $this->assertInstanceOf(Container\Category::class, $firstCategory);
     }
 
     public function testGetChannels()
@@ -128,12 +128,12 @@ class ServiceAccountTest extends \PHPUnit_Framework_TestCase
         $serviceAccount = new Container\ServiceAccount(['key' => $testKey]);
 
         $channels = $serviceAccount->getChannels();
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $channels);
+        $this->assertInstanceOf(Container\ContainerArray::class, $channels);
         $this->assertNotEmpty($channels);
 
         $firstChannel = $channels[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\Channel', $firstChannel);
+        $this->assertInstanceOf(Container\Channel::class, $firstChannel);
     }
 
     public function testGetLibraryMediaContents()
@@ -158,12 +158,12 @@ class ServiceAccountTest extends \PHPUnit_Framework_TestCase
         $serviceAccount = new Container\ServiceAccount(['key' => $testKey, 'name' => $testName]);
 
         $mediaContents = $serviceAccount->getLibraryMediaContents();
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $mediaContents);
+        $this->assertInstanceOf(Container\ContainerArray::class, $mediaContents);
         $this->assertNotEmpty($mediaContents);
 
         $firstMediaContent = $mediaContents[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $firstMediaContent);
     }
 
     public function testGetChannelMediaContents()
@@ -189,12 +189,12 @@ class ServiceAccountTest extends \PHPUnit_Framework_TestCase
         $serviceAccount = new Container\ServiceAccount(['key' => $testKey, 'name' => $testName]);
 
         $mediaContents = $serviceAccount->getChannelMediaContents($testChannelKey);
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $mediaContents);
+        $this->assertInstanceOf(Container\ContainerArray::class, $mediaContents);
         $this->assertNotEmpty($mediaContents);
 
         $firstMediaContent = $mediaContents[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $firstMediaContent);
     }
 
     public function testGetSecurityKey()
@@ -228,5 +228,21 @@ class ServiceAccountTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertEquals($testSecurityKey, $serviceAccount->getSecurityKey());
+    }
+
+    /**
+     * @expectedException \Kollus\Component\Container\ContainerException
+     * @throws Client\ClientException
+     */
+    public function testInvalidSecurityKey()
+    {
+        $serviceAccount = new Container\ServiceAccount([
+            'key' => '',
+            'name' => '',
+            'security_key' => '',
+        ]);
+
+        $this->assertEquals('', $serviceAccount->getName());
+        $serviceAccount->getSecurityKey();
     }
 }

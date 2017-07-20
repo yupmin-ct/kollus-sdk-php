@@ -3,6 +3,7 @@
 namespace Kollus\Component\Container;
 
 use Kollus\Component\KollusClient;
+use Kollus\Component\Client;
 
 class UploadFile extends AbstractContainer
 {
@@ -183,7 +184,7 @@ class UploadFile extends AbstractContainer
         $client = KollusClient::getDefaultClient();
 
         $mediaContent = null;
-        if (KollusClient::getDefaultClientName() == 'Kollus\Component\Client\ApiClient') {
+        if (KollusClient::getDefaultClientName() == Client\ApiClient::class) {
             $uploadFileKey = $this->getUploadFileKey();
             if (empty($uploadFileKey)) {
                 throw new ContainerException('Upload file key is empty.');

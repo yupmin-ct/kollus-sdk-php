@@ -35,7 +35,7 @@ class KollusPlayerTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $firstKollusPlayer = new Container\KollusPlayer();
-        $this->assertInstanceOf('Kollus\Component\Container\KollusPlayer', $firstKollusPlayer);
+        $this->assertInstanceOf(Container\KollusPlayer::class, $firstKollusPlayer);
 
         $testVersion = '1.0';
         $testFileUrl = 'test1';

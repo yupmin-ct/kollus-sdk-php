@@ -42,15 +42,15 @@ class ApiClientUploadFileTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -71,15 +71,15 @@ class ApiClientUploadFileTest extends \PHPUnit_Framework_TestCase
     private function getMockHttpClient($body)
     {
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -124,15 +124,15 @@ class ApiClientUploadFileTest extends \PHPUnit_Framework_TestCase
         );
 
         // create mock client & request ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -173,14 +173,14 @@ class ApiClientUploadFileTest extends \PHPUnit_Framework_TestCase
 
         $response = $mockClient->findUploadFilesByPage(1, ['transcoding_stage' => 21]);
         $this->assertEquals('stdClass', get_class($response));
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $response->items);
+        $this->assertInstanceOf(Container\ContainerArray::class, $response->items);
         $this->assertNotempty($response->items);
 
         /**
          * @var Container\UploadFile $firstUploadFile
          */
         $firstUploadFile = $response->items[0];
-        $this->assertInstanceOf('Kollus\Component\Container\UploadFile', $firstUploadFile);
+        $this->assertInstanceOf(Container\UploadFile::class, $firstUploadFile);
 
         $this->assertEquals('upload_file_key2', $firstUploadFile->getUploadFileKey());
         $this->assertEquals(2, $firstUploadFile->getMediaContentId());
@@ -195,14 +195,14 @@ class ApiClientUploadFileTest extends \PHPUnit_Framework_TestCase
 
         $uploadFiles = $mockClient->getUploadFiles(['transcoding_stage' => 21]);
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $uploadFiles);
+        $this->assertInstanceOf(Container\ContainerArray::class, $uploadFiles);
         $this->assertEquals(4, count($uploadFiles));
 
         $firstUploadFile = $uploadFiles[0];
-        $this->assertInstanceOf('Kollus\Component\Container\UploadFile', $firstUploadFile);
+        $this->assertInstanceOf(Container\UploadFile::class, $firstUploadFile);
 
         $lastUploadFile = $uploadFiles[3];
-        $this->assertInstanceOf('Kollus\Component\Container\UploadFile', $lastUploadFile);
+        $this->assertInstanceOf(Container\UploadFile::class, $lastUploadFile);
         $this->assertEquals(4, $firstUploadFile->getMediaContentId());
         $this->assertEquals(1, $lastUploadFile->getMediaContentId());
     }
@@ -251,8 +251,8 @@ class ApiClientUploadFileTest extends \PHPUnit_Framework_TestCase
         $mockHttpClient = $this->getMockHttpClient($mockHttpResponse);
 
         $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->uploadFileByUploadURL($filePath, null, false, false, '', $mockHttpClient)
+            Client\ApiClient::class,
+            $mockClient->uploadFileByUploadURL($filePath, null, false, false, '', 600, $mockHttpClient)
         );
     }
 
@@ -279,6 +279,6 @@ class ApiClientUploadFileTest extends \PHPUnit_Framework_TestCase
 
         $mockHttpClient = $this->getMockHttpClient($mockHttpResponse);
 
-        $mockClient->uploadFileByUploadURL($filePath, null, false, false, '', $mockHttpClient);
+        $mockClient->uploadFileByUploadURL($filePath, null, false, false, '', 600, $mockHttpClient);
     }
 }

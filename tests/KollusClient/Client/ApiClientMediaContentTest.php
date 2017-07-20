@@ -42,15 +42,15 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -101,15 +101,15 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         );
 
         // create mock client & request ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -132,7 +132,7 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
     {
         $client = Client\ApiClient::getInstance($this->domain, $this->version, 'korean', ['timeout' => 30]);
 
-        $this->assertInstanceOf('Kollus\Component\Client\ApiClient', $client);
+        $this->assertInstanceOf(Client\ApiClient::class, $client);
 
         $optParam = $client->getOptParams();
 
@@ -152,7 +152,7 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
 
         $mediaContent = $mockClient->getLibraryMediaContent('upload_file_key2');
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $mediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $mediaContent);
         $this->assertEquals(2, $mediaContent->getId());
     }
 
@@ -178,14 +178,14 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
 
         $response = $mockClient->findLibraryMediaContentsByPage(1, ['transcoding_stage' => 21]);
         $this->assertEquals('stdClass', get_class($response));
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $response->items);
+        $this->assertInstanceOf(Container\ContainerArray::class, $response->items);
         $this->assertNotEmpty($response->items);
 
         /**
          * @var Container\MediaContent $firstMediaContent
          */
         $firstMediaContent = $response->items[0];
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $firstMediaContent);
 
         $this->assertEquals(2, $firstMediaContent->getId());
         $this->assertEquals('upload_file_key2', $firstMediaContent->getUploadFileKey());
@@ -205,7 +205,7 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
 
         $response = $mockClient->findLibraryMediaContentsByPage(1, ['transcoding_stage' => 21]);
         $this->assertEquals('stdClass', get_class($response));
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $response->items);
+        $this->assertInstanceOf(Container\ContainerArray::class, $response->items);
         $this->assertEmpty($response->items);
     }
 
@@ -215,13 +215,13 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
 
         $mediaContents = $mockClient->getLibraryMediaContents(['transcoding_stage' => 21]);
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $mediaContents);
+        $this->assertInstanceOf(Container\ContainerArray::class, $mediaContents);
         $this->assertEquals(4, count($mediaContents));
         $firstMediaContent = $mediaContents[0];
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $firstMediaContent);
 
         $lastMediaContent = $mediaContents[3];
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $lastMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $lastMediaContent);
 
         $this->assertEquals(4, $firstMediaContent->getId());
         $this->assertEquals(1, $lastMediaContent->getId());
@@ -233,10 +233,7 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         $mockResponseObject = (object)array('error' => 0, 'result' => []);
         $mockClient = $this->getMockClient($mockResponseObject);
 
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->deleteMediaContent($uploadFileKey)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->deleteMediaContent($uploadFileKey));
     }
 
     /**
@@ -267,7 +264,7 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
 
         $mediaContent = $mockClient->getChannelMediaContent('channel_key', 'upload_file_key');
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $mediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $mediaContent);
         $this->assertEquals('media_content_key', $mediaContent->getMediaContentKey());
     }
 
@@ -290,14 +287,14 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
 
         $response = $mockClient->findChannelMediaContentsByPage('channel_key', 1);
         $this->assertEquals('stdClass', get_class($response));
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $response->items);
+        $this->assertInstanceOf(Container\ContainerArray::class, $response->items);
         $this->assertNotempty($response->items);
 
         /**
          * @var Container\MediaContent $firstMediaContent
          */
         $firstMediaContent = $response->items[0];
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $firstMediaContent);
         $this->assertEquals('media_content_key2', $firstMediaContent->getMediaContentKey());
     }
 
@@ -306,13 +303,13 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClientForPage();
 
         $mediaContents = $mockClient->getChannelMediaContents('channel_key');
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $mediaContents);
+        $this->assertInstanceOf(Container\ContainerArray::class, $mediaContents);
         $this->assertEquals(4, count($mediaContents));
         $firstMediaContent = $mediaContents[0];
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $firstMediaContent);
 
         $lastMediaContent = $mediaContents[3];
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $lastMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $lastMediaContent);
 
         $this->assertEquals(4, $firstMediaContent->getId());
         $this->assertEquals(1, $lastMediaContent->getId());
@@ -324,10 +321,7 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         $mockResponseObject = (object)array('error' => 0, 'result' => []);
         $mockClient = $this->getMockClient($mockResponseObject);
 
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->setEnableMediaContent($uploadFileKey)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->setEnableMediaContent($uploadFileKey));
     }
 
     public function testSetDisableMediaContent()
@@ -336,10 +330,7 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         $mockResponseObject = (object)array('error' => 0, 'result' => []);
         $mockClient = $this->getMockClient($mockResponseObject);
 
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->setDisableMediaContent($uploadFileKey)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->setDisableMediaContent($uploadFileKey));
     }
 
     public function testChangeCategoryMediaContent()
@@ -350,7 +341,7 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
 
         $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
+           Client\ApiClient::class,
             $mockClient->changeCategoryMediaContent($uploadFileKey, $categoryKey)
         );
     }
@@ -363,10 +354,7 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         $mockResponseObject = (object)array('error' => 0, 'result' => []);
         $mockClient = $this->getMockClient($mockResponseObject);
 
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->uploadPoster($uploadFileKey, $filePath)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->uploadPoster($uploadFileKey, $filePath));
     }
 
     public function testAddAdditionalTranscodingFile()
@@ -377,9 +365,6 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         $mockResponseObject = (object)array('error' => 0, 'result' => []);
         $mockClient = $this->getMockClient($mockResponseObject);
 
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->addAdditionalTranscodingFile($uploadFileKey, $profileKey)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->addAdditionalTranscodingFile($uploadFileKey, $profileKey));
     }
 }

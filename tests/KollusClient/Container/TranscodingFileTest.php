@@ -9,7 +9,7 @@ class TranscodingFileTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $firstTranscodingFile = new Container\TranscodingFile();
-        $this->assertInstanceOf('Kollus\Component\Container\TranscodingFile', $firstTranscodingFile);
+        $this->assertInstanceOf(Container\TranscodingFile::class, $firstTranscodingFile);
 
         $testProfileKey = 'profile_key';
         $testProfileName = 'profile_name';
@@ -25,7 +25,7 @@ class TranscodingFileTest extends \PHPUnit_Framework_TestCase
             ['media_profile_group_name' => $testProfileGroupName, 'media_profile_group_key' => $testProfileGroupKey]
         );
         $mediaProfileGroup = $secondTranscodingFile->getMediaProfileGroup();
-        $this->assertInstanceOf('Kollus\Component\Container\MediaProfileGroup', $mediaProfileGroup);
+        $this->assertInstanceOf(Container\MediaProfileGroup::class, $mediaProfileGroup);
     }
 
     public function testCreationAtMediaContent()
@@ -47,12 +47,12 @@ class TranscodingFileTest extends \PHPUnit_Framework_TestCase
 
         $transcodingFiles = $mediaContent->getTranscodingFiles();
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $transcodingFiles);
+        $this->assertInstanceOf(Container\ContainerArray::class, $transcodingFiles);
         $this->assertNotEmpty($transcodingFiles);
 
         $firstTranscodingFile = $transcodingFiles[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\TranscodingFile', $firstTranscodingFile);
+        $this->assertInstanceOf(Container\TranscodingFile::class, $firstTranscodingFile);
         $this->assertEquals('profile_key1', $firstTranscodingFile->getProfileKey());
     }
 }

@@ -35,10 +35,7 @@ class MediaInformationTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $firstMediaInformation = new Container\MediaInformation();
-        $this->assertInstanceOf(
-            'Kollus\Component\Container\MediaInformation',
-            $firstMediaInformation
-        );
+        $this->assertInstanceOf(Container\MediaInformation::class, $firstMediaInformation);
 
         $testFileSize = 1000;
         $testVideoCodec = 'test1';

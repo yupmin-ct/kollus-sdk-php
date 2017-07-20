@@ -25,15 +25,15 @@ class KollusServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(\Kollus\Component\Client\ApiClient::class, function () {
+        $this->app->singleton(Client\ApiClient::class, function () {
 
-            $kollusApiClient = new \Kollus\Component\Client\ApiClient(
+            $kollusApiClient = new Client\ApiClient(
                 config('kollus.domain'),
                 config('kollus.api_version'),
                 config('kollus.language')
             );
 
-            $serviceAccount = new \Kollus\Component\Container\ServiceAccount([
+            $serviceAccount = new Container\ServiceAccount([
                 'key' => config('kollus.service_account.key'),
                 'api_access_token' => config('kollus.service_account.api_access_token')
             ]);
@@ -47,15 +47,15 @@ class KollusServiceProvider extends ServiceProvider
             return $kollusApiClient;
         });
 
-        $this->app->singleton(\Kollus\Component\Client\VideoGatewayClient::class, function () {
+        $this->app->singleton(Client\VideoGatewayClient::class, function () {
 
-            $kollusVideoGatewayClient = new \Kollus\Component\Client\VideoGatewayClient(
+            $kollusVideoGatewayClient = new Client\VideoGatewayClient(
                 config('kollus.domain'),
                 config('kollus.api_version'),
                 config('kollus.language')
             );
 
-            $serviceAccount = new \Kollus\Component\Container\ServiceAccount([
+            $serviceAccount = new Container\ServiceAccount([
                 'key' => config('kollus.service_account.key'),
                 'custom_key' => config('kollus.service_account.custom_key'),
                 'security_key' => config('kollus.service_account.security_key', null),
@@ -70,15 +70,15 @@ class KollusServiceProvider extends ServiceProvider
             return $kollusVideoGatewayClient;
         });
 
-        $this->app->singleton(\Kollus\Component\Callback::class, function () {
+        $this->app->singleton(Callback::class, function () {
 
-            $serviceAccount = new \Kollus\Component\Container\ServiceAccount([
+            $serviceAccount = new Container\ServiceAccount([
                 'key' => config('kollus.service_account.key'),
                 'custom_key' => config('kollus.service_account.custom_key'),
                 'security_key' => config('kollus.service_account.security_key'),
             ]);
 
-            $kollusCallback = new \Kollus\Component\Callback($serviceAccount);
+            $kollusCallback = new Callback($serviceAccount);
 
             return $kollusCallback;
         });

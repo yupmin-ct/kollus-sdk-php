@@ -9,7 +9,7 @@ class LoginAccountTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $firstLoginAccount = new Container\LoginAccount();
-        $this->assertInstanceOf('Kollus\Component\Container\LoginAccount', $firstLoginAccount);
+        $this->assertInstanceOf(Container\LoginAccount::class, $firstLoginAccount);
 
         $testEmail = 'email';
         $secondLoginAccount = new Container\LoginAccount(['email' => $testEmail]);

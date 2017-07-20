@@ -22,17 +22,20 @@ class ProgressBlock extends AbstractContainer
     /**
      * ProgressBlock constructor.
      */
-    public function __construct($item = [])
+    public function __construct($items = [])
     {
-        if (isset($item['is_read_block'])) {
-            $this->is_read_block = $item['is_read_block'];
+        if (isset($items['is_read_block'])) {
+            $this->is_read_block = $items['is_read_block'];
         }
-        if (isset($item['time'])) {
-            $this->time = $item['time'];
+        if (isset($items['time'])) {
+            $this->time = $items['time'];
         }
-        if (isset($item['percent'])) {
-            $this->percent = $item['percent'];
+        if (isset($items['percent'])) {
+            $this->percent = $items['percent'];
         }
+        $items = [];
+
+        parent::__construct($items);
     }
 
     /**

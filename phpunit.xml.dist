@@ -17,6 +17,8 @@
         <whitelist>
             <directory>./</directory>
             <exclude>
+                <directory>./src/config</directory>
+                <directory>./src/KollusServiceProvider.php</directory>
                 <directory>./tests</directory>
                 <directory>./vendor</directory>
             </exclude>

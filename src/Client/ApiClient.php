@@ -58,7 +58,7 @@ class ApiClient extends AbstractClient
      */
     public function connect($client = null)
     {
-        if (get_class($this->serviceAccount) != 'Kollus\\Component\\Container\\ServiceAccount') {
+        if (is_subclass_of($this->serviceAccount, Container\ServiceAccount::class)) {
             throw new ClientException('Service account is required.');
         }
 
@@ -773,6 +773,7 @@ class ApiClient extends AbstractClient
      * @param bool|false $useEncryption
      * @param bool|false $isAudioUpload
      * @param string $title
+     * @param int $expireTime
      * @return object
      * @throws ClientException
      */
@@ -780,12 +781,13 @@ class ApiClient extends AbstractClient
         $categoryKey = null,
         $useEncryption = false,
         $isAudioUpload = false,
-        $title = ''
+        $title = '',
+        $expireTime = 600
     ) {
         $postParams = [
             'access_token' => $this->serviceAccount->getApiAccessToken(),
             'category_key' => $categoryKey,
-            'expire_time' => 600,
+            'expire_time' => $expireTime,
             'is_encryption_upload' => (bool)$useEncryption,
             'is_audio_upload' => (bool)$isAudioUpload,
             'title' => (empty($title) ? null : $title)
@@ -805,6 +807,7 @@ class ApiClient extends AbstractClient
      * @param bool $useEncryption
      * @param bool $isAudioUpload
      * @param string $title
+     * @param int $expireTime
      * @param HttpClient $httpClient
      * @return $this
      * @throws \Exception|ClientException
@@ -815,6 +818,7 @@ class ApiClient extends AbstractClient
         $useEncryption = false,
         $isAudioUpload = false,
         $title = '',
+        $expireTime = 600,
         $httpClient = null
     ) {
         $optParams = [
@@ -841,7 +845,13 @@ class ApiClient extends AbstractClient
             }
 
             try {
-                $apiResponse = $this->getUploadURLResponse($categoryKey, $useEncryption, $isAudioUpload, $title);
+                $apiResponse = $this->getUploadURLResponse(
+                    $categoryKey,
+                    $useEncryption,
+                    $isAudioUpload,
+                    $title,
+                    $expireTime
+                );
 
                 sleep(3); // need delay time.
 

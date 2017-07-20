@@ -42,15 +42,15 @@ class ApiClientMediaProfileTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -84,12 +84,12 @@ class ApiClientMediaProfileTest extends \PHPUnit_Framework_TestCase
 
         $mediaProfileGroups = $mockClient->getMediaProfileGroups();
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $mediaProfileGroups);
+        $this->assertInstanceOf(Container\ContainerArray::class, $mediaProfileGroups);
         $this->assertNotEmpty($mediaProfileGroups);
 
         $firstMediaProfileGroup = $mediaProfileGroups[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaProfileGroup', $firstMediaProfileGroup);
+        $this->assertInstanceOf(Container\MediaProfileGroup::class, $firstMediaProfileGroup);
         $this->assertEquals(2, $firstMediaProfileGroup->getId());
         $this->assertEquals('name2', $firstMediaProfileGroup->getName());
     }
@@ -143,12 +143,12 @@ class ApiClientMediaProfileTest extends \PHPUnit_Framework_TestCase
 
         $mediaProfiles = $mockClient->getMediaProfiles();
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $mediaProfiles);
+        $this->assertInstanceOf(Container\ContainerArray::class, $mediaProfiles);
         $this->assertNotEmpty($mediaProfiles);
 
         $firstMediaProfile = $mediaProfiles[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaProfile', $firstMediaProfile);
+        $this->assertInstanceOf(Container\MediaProfile::class, $firstMediaProfile);
         $this->assertEquals(2, $firstMediaProfile->getId());
         $this->assertEquals('name2', $firstMediaProfile->getName());
 
@@ -156,10 +156,7 @@ class ApiClientMediaProfileTest extends \PHPUnit_Framework_TestCase
          * @var Container\MediaProfileGroup $mediaProfileGroup
          */
         $mediaProfileGroup = $firstMediaProfile->getMediaProfileGroup();
-        $this->assertInstanceOf(
-            'Kollus\Component\Container\MediaProfileGroup',
-            $mediaProfileGroup
-        );
+        $this->assertInstanceOf(Container\MediaProfileGroup::class, $mediaProfileGroup);
 
         $this->assertEquals('media_profile_group_key2', $mediaProfileGroup->getKey());
         $this->assertEquals('mp4', $firstMediaProfile->getContainerFormat());
@@ -181,7 +178,7 @@ class ApiClientMediaProfileTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
 
         $mediaProfiles = $mockClient->getMediaProfiles();
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $mediaProfiles);
+        $this->assertInstanceOf(Container\ContainerArray::class, $mediaProfiles);
         $this->assertEmpty($mediaProfiles);
     }
 
@@ -217,12 +214,12 @@ class ApiClientMediaProfileTest extends \PHPUnit_Framework_TestCase
 
         $mediaProfiles = $mockClient->getMediaProfilePresets();
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $mediaProfiles);
+        $this->assertInstanceOf(Container\ContainerArray::class, $mediaProfiles);
         $this->assertNotEmpty($mediaProfiles);
 
         $firstMediaProfile = $mediaProfiles[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaProfile', $firstMediaProfile);
+        $this->assertInstanceOf(Container\MediaProfile::class, $firstMediaProfile);
         $this->assertEquals(2, $firstMediaProfile->getId());
         $this->assertEquals('name2', $firstMediaProfile->getName());
 
@@ -231,7 +228,7 @@ class ApiClientMediaProfileTest extends \PHPUnit_Framework_TestCase
          */
         $mediaProfileGroup = $firstMediaProfile->getMediaProfileGroup();
         $this->assertInstanceOf(
-            'Kollus\Component\Container\MediaProfileGroup',
+            Container\MediaProfileGroup::class,
             $mediaProfileGroup
         );
 
@@ -261,10 +258,7 @@ class ApiClientMediaProfileTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
         $mediaProfilePresetId = 1;
 
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->createMediaProfile($mediaProfilePresetId)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->createMediaProfile($mediaProfilePresetId));
     }
 
     public function testEditMediaProfile()
@@ -274,9 +268,6 @@ class ApiClientMediaProfileTest extends \PHPUnit_Framework_TestCase
         $mediaProfileId = 1;
         $postParams = ['name' => 'changed_name'];
 
-        $this->assertInstanceOf(
-            'Kollus\Component\Client\ApiClient',
-            $mockClient->editMediaProfile($mediaProfileId, $postParams)
-        );
+        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->editMediaProfile($mediaProfileId, $postParams));
     }
 }

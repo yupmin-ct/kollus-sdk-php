@@ -42,15 +42,15 @@ class ChannelTest extends \PHPUnit_Framework_TestCase
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockStream = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $mockStream = $this->getMockBuilder(\GuzzleHttp\Psr7\Stream::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -67,16 +67,34 @@ class ChannelTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $firstChannel = new Container\Channel();
-        $this->assertInstanceOf('Kollus\Component\Container\Channel', $firstChannel);
+        $this->assertInstanceOf(Container\Channel::class, $firstChannel);
 
         $testKey = 'key1';
         $testName = 'name1';
+        $testMediaContentKey1 = 'xxxxxx';
         $secondChannel = new Container\Channel(
-            ['key' => $testKey, 'name' => $testName, 'use_pingback' => true]
+            [
+                'key' => $testKey,
+                'name' => $testName,
+                'use_pingback' => 1,
+                'status' => 1,
+                'media_content_key' => $testMediaContentKey1,
+            ]
         );
         $this->assertEquals($testKey, $secondChannel->getKey());
         $this->assertEquals($testName, $secondChannel->getName());
-        $this->assertTrue($secondChannel->getUsePingback());
+        $this->assertEquals(1, $secondChannel->getUsePingback());
+        $this->assertEquals(1, $secondChannel->getStatus());
+        $this->assertEquals($testMediaContentKey1, $secondChannel->getMediaContentKey());
+
+        $secondChannel->setUsePingback(0);
+        $secondChannel->setStatus(0);
+        $testMediaContentKey2 = 'yyyyyy';
+        $secondChannel->setMediaContentKey($testMediaContentKey2);
+
+        $this->assertEquals(0, $secondChannel->getUsePingback());
+        $this->assertEquals(0, $secondChannel->getStatus());
+        $this->assertEquals($testMediaContentKey2, $secondChannel->getMediaContentKey());
     }
 
     public function testCreationAtMediaContent()
@@ -98,12 +116,12 @@ class ChannelTest extends \PHPUnit_Framework_TestCase
 
         $channels = $mediaContent->getChannels();
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $channels);
+        $this->assertInstanceOf(Container\ContainerArray::class, $channels);
         $this->assertNotEmpty($channels);
 
         $firstChannel = $channels[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\Channel', $firstChannel);
+        $this->assertInstanceOf(Container\Channel::class, $firstChannel);
 
         $this->assertEquals('channel_key1', $firstChannel->getKey());
         $this->assertEquals('channel_name1', $firstChannel->getName());
@@ -134,12 +152,35 @@ class ChannelTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('stdClass', $response);
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $response->items);
+        $this->assertInstanceOf(Container\ContainerArray::class, $response->items);
         $this->assertNotEmpty($response->items);
 
         $firstMediaContent = $response->items[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $firstMediaContent);
+    }
+
+    /**
+     * @expectedException \Kollus\Component\Container\ContainerException
+     * @throws Container\ContainerException
+     */
+    public function testInvalidFindChannelMediaContentsByPage()
+    {
+        $mockResponseObject = (object)array(
+            'error' => 0,
+            'result' => (object)array(
+                'count' => 2,
+                'per_page' => 10,
+                'items' => (object)array(
+                    'item' => []
+                )
+            )
+        );
+        $this->getMockClient($mockResponseObject);
+
+        $channel = new Container\Channel(array('key' => '', 'name' => ''));
+
+        $channel->findChannelMediaContentsByPage();
     }
 
     public function testGetChannelMediaContents()
@@ -165,11 +206,34 @@ class ChannelTest extends \PHPUnit_Framework_TestCase
 
         $mediaContents = $channel->getChannelMediaContents();
 
-        $this->assertInstanceOf('Kollus\Component\Container\ContainerArray', $mediaContents);
+        $this->assertInstanceOf(Container\ContainerArray::class, $mediaContents);
         $this->assertNotEmpty($mediaContents);
 
         $firstMediaContent = $mediaContents[0];
 
-        $this->assertInstanceOf('Kollus\Component\Container\MediaContent', $firstMediaContent);
+        $this->assertInstanceOf(Container\MediaContent::class, $firstMediaContent);
+    }
+
+    /**
+     * @expectedException \Kollus\Component\Container\ContainerException
+     * @throws Container\ContainerException
+     */
+    public function testInvalidGetChannelMediaContents()
+    {
+        $mockResponseObject = (object)array(
+            'error' => 0,
+            'result' => (object)array(
+                'count' => 2,
+                'per_page' => 10,
+                'items' => (object)array(
+                    'item' => []
+                )
+            )
+        );
+        $this->getMockClient($mockResponseObject);
+
+        $channel = new Container\Channel(array('key' => '', 'name' => ''));
+
+        $channel->GetChannelMediaContents();
     }
 }

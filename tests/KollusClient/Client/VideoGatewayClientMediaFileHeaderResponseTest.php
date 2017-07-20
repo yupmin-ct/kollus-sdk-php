@@ -43,11 +43,11 @@ class VideoGatewayClientMediaFileHeaderResponseTest extends \PHPUnit_Framework_T
         $client->setServiceAccount($this->serviceAccount);
 
         // create mock client & response ... more
-        $mockClient = $this->getMockBuilder('GuzzleHttp\Client')
+        $mockClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockResponse = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+        $mockResponse = $this->getMockBuilder(\GuzzleHttp\Psr7\Response::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -69,7 +69,7 @@ class VideoGatewayClientMediaFileHeaderResponseTest extends \PHPUnit_Framework_T
         $mockClient = $this->getMockClient(302, $mockResponseHeaders);
         $headerResponse = $mockClient->getMediaFileHeaderResponse('media_content_key', 'client_user_id');
 
-        $this->assertInstanceOf('GuzzleHttp\Psr7\Response', $headerResponse);
+        $this->assertInstanceOf(\GuzzleHttp\Psr7\Response::class, $headerResponse);
         $this->assertEquals(302, $headerResponse->getStatusCode());
         $this->assertEquals($mockResponseHeaders, $headerResponse->getHeader('location'));
     }

@@ -2,10 +2,6 @@
 
 namespace Kollus\Component\Container;
 
-/**
- * Class MediaProfileGroup
- * @package Kollus\Component\Container
- */
 class MediaProfileGroup extends AbstractContainer
 {
     /**
