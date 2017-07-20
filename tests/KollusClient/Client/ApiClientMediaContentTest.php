@@ -341,7 +341,7 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         $mockClient = $this->getMockClient($mockResponseObject);
 
         $this->assertInstanceOf(
-           Client\ApiClient::class,
+            Client\ApiClient::class,
             $mockClient->changeCategoryMediaContent($uploadFileKey, $categoryKey)
         );
     }
@@ -365,6 +365,9 @@ class ApiClientMediaContentTest extends \PHPUnit_Framework_TestCase
         $mockResponseObject = (object)array('error' => 0, 'result' => []);
         $mockClient = $this->getMockClient($mockResponseObject);
 
-        $this->assertInstanceOf(Client\ApiClient::class, $mockClient->addAdditionalTranscodingFile($uploadFileKey, $profileKey));
+        $this->assertInstanceOf(
+            Client\ApiClient::class,
+            $mockClient->addAdditionalTranscodingFile($uploadFileKey, $profileKey)
+        );
     }
 }
